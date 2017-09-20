@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Create New Apartment</title>
+</head>
+<body>
+<h1>Create a New Apartment</h1>
+<form method="post" action="/apartments">
+	<input type="number" name="rent" placeholder="Rent" required min=0>
+	<br>
+	<input type="number" name="numberOfBedrooms" placeholder="Number of Bedrooms" required min=0 step="0.5">
+	<br>
+	<input type="number" name="numberOfBathrooms" placeholder="Number of Bathrooms" required min =0>
+	<br>
+	<input type="number" name="squareFootage" placeholder="Square Footage" required min=0>
+	<br>
+	<input type="text" name="address" placeholder="Street Address" required>
+	<br>
+	<input type="text" name="city" placeholder="City" required>
+	<br>
+	<input type="text" name="state" placeholder="State" required>
+	<br>
+	<input type="text" name="zipCode" placeholder="Zip Code" required>
+	<br>
+	<br>
+	<button>Create</button>
+</form>
+
+</body>
+</html>
