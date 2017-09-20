@@ -1,9 +1,11 @@
 package com.libertymutual.goforcode.spark.app.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.libertymutual.goforcode.spark.app.models.Apartment;
+import com.libertymutual.goforcode.spark.app.models.User;
 import com.libertymutual.goforcode.spark.app.utilities.AutoCloseableDb;
 import com.libertymutual.goforcode.spark.app.utilities.MustacheRenderer;
 
@@ -29,7 +31,7 @@ public class ApartmentController {
 		return MustacheRenderer.getInstance().render("apartment/newForm.html", null);
 	};
 
-	public static Route create = (Request req, Response res) -> {
+	public static final Route create = (Request req, Response res) -> {
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
 		Apartment apartment = new Apartment(
 				Integer.parseInt(req.queryParams("rent")),
@@ -43,9 +45,24 @@ public class ApartmentController {
 		);
 		
 			apartment.saveIt();
+			User user = req.session().attribute("currentUser");
+			user.add(apartment);
 			req.session().attribute("apartment", apartment);
 			res.redirect("/");
 			return "";
+		}
+	};
+
+	public static final Route index = (Request req, Response res) -> {
+		User currentUser = req.session().attribute("currentUser");
+		long id = (long) currentUser.getId();
+		
+		try (AutoCloseableDb db = new AutoCloseableDb()) {
+			List<Apartment> apartments = Apartment.where("user_id = ?", id);
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("apartments", apartments);
+			model.put("currentUser", req.session().attribute("currentUser"));
+			return MustacheRenderer.getInstance().render("apartment/index.html", model);
 		}
 	};
 

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>My Listings</title>
+</head>
+<body>
+<a href="/logout">Logout</a>
+<br>
+<a href="/">Return Home</a>
+<br>
+Welcome, {{ currentUser.firstName }} ({{ currentUser.email }})
+<h1>My Listings</h1>
+	{{#apartments}}
+		<div>
+			<a href="/apartments/{{ id }}">{{ address }}</a>
+		</div>
+	{{/apartments}}
+</body>
+</html>

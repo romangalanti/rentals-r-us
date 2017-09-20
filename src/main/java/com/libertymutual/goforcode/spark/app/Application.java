@@ -22,15 +22,24 @@ public class Application {
 		
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
 			User.deleteAll();
-			new User("rg@gmail.com", encryptedPassword, "Roman", "Galanti").saveIt();
+			User roman = new User("rg@gmail.com", encryptedPassword, "Roman", "Galanti");
+			roman.saveIt();
 			Apartment.deleteAll();
-			new Apartment(6000, 1, 0, 350, "123 Main St.", "San Francisco", "CA", "95125").saveIt();
-			new Apartment(1400, 5, 6, 4000, "123 Cowboy Way", "Houston", "TX", "77006").saveIt();
+			Apartment apartment = new Apartment(6000, 1, 0, 350, "123 Main St.", "San Francisco", "CA", "95125");
+			apartment.saveIt();
+			roman.add(apartment);
+			apartment = new Apartment(1400, 5, 6, 4000, "123 Cowboy Way", "Houston", "TX", "77006");
+			apartment.saveIt();
+			roman.add(apartment);
 		}
 		
 		path("/apartments", () -> {
 			before("/new", SecurityFilters.isAuthenticated);
 			get("/new", ApartmentController.newForm);
+			
+			before("/mine", SecurityFilters.isAuthenticated);
+			get("/mine", ApartmentController.index);
+			
 			get("/:id", ApartmentController.details);
 			
 			before("", SecurityFilters.isAuthenticated);
