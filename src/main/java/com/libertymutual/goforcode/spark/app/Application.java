@@ -25,10 +25,10 @@ public class Application {
 			User roman = new User("rg@gmail.com", encryptedPassword, "Roman", "Galanti");
 			roman.saveIt();
 			Apartment.deleteAll();
-			Apartment apartment = new Apartment(6000, 1, 0, 350, "123 Main St.", "San Francisco", "CA", "95125");
+			Apartment apartment = new Apartment(6000, 1, 0, 350, "123 Main St.", "San Francisco", "CA", "95125", true);
 			roman.add(apartment);
 			apartment.saveIt();
-			apartment = new Apartment(1400, 5, 6, 4000, "123 Cowboy Way", "Houston", "TX", "77006");
+			apartment = new Apartment(1400, 5, 6, 4000, "123 Cowboy Way", "Houston", "TX", "77006", false);
 			roman.add(apartment);
 			apartment.saveIt();
 		}
@@ -41,6 +41,8 @@ public class Application {
 			get("/mine", ApartmentController.index);
 			
 			get("/:id", ApartmentController.details);
+			post("/:id/activations", ApartmentController.activate);
+			post("/:id/deactivations", ApartmentController.deactivate);
 			
 			before("", SecurityFilters.isAuthenticated);
 			post("", ApartmentController.create);

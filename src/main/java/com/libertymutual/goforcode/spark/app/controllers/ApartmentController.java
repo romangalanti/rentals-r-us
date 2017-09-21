@@ -46,7 +46,8 @@ public class ApartmentController {
 				req.queryParams("address"),
 				req.queryParams("city"),
 				req.queryParams("state"),
-				req.queryParams("zip_code")
+				req.queryParams("zip_code"),
+				true
 		);
 		
 			apartment.saveIt();
@@ -63,12 +64,24 @@ public class ApartmentController {
 		long id = (long) currentUser.getId();
 		
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
-			List<Apartment> apartments = Apartment.where("user_id = ?", id);
+			List<Apartment> activeApartments = Apartment.where("user_id = ? and is_active = ?", id, true);
+			List<Apartment> inactiveApartments = Apartment.where("user_id = ? and is_active = ?", id, false);
 			Map<String, Object> model = new HashMap<String, Object>();
-			model.put("apartments", apartments);
 			model.put("currentUser", req.session().attribute("currentUser"));
+			model.put("isActive", activeApartments);
+			model.put("notActive", inactiveApartments);
 			return MustacheRenderer.getInstance().render("apartment/index.html", model);
 		}
+	};
+
+	public static Route activate = (Request req, Response res) -> {
+		res.redirect("/apartments/:id");
+		return "";
+	};
+
+	public static Route deactivate = (Request req, Response res) -> {
+		res.redirect("/apartments/:id");
+		return "";
 	};
 
 }
