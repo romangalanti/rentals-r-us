@@ -26,11 +26,11 @@ public class Application {
 			roman.saveIt();
 			Apartment.deleteAll();
 			Apartment apartment = new Apartment(6000, 1, 0, 350, "123 Main St.", "San Francisco", "CA", "95125");
-			apartment.saveIt();
 			roman.add(apartment);
+			apartment.saveIt();
 			apartment = new Apartment(1400, 5, 6, 4000, "123 Cowboy Way", "Houston", "TX", "77006");
-			apartment.saveIt();
 			roman.add(apartment);
+			apartment.saveIt();
 		}
 		
 		path("/apartments", () -> {
@@ -48,9 +48,9 @@ public class Application {
 		
 		get("/", HomeController.index);
 		get("/login", SessionController.newForm);
-		get("/signup", UserController.newForm);
-		get("/logout", SessionController.destroy);
-		post("/signup", UserController.create);
+		get("/users/new", UserController.newForm);
+		post("/logout", SessionController.destroy);
+		post("/users", UserController.create);
 		post("/login", SessionController.create);
 		
 		path("/api", () -> {

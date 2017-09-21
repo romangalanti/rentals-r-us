@@ -2,11 +2,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Your next home!</title>
+<title>Apartment Details</title>
 </head>
 <body>
-
-<h1>Only ${{ apartment.rent }}</h1>
+{{> /common/_navigation }}
+<h1>Apartment Details</h1>
+<h2>Only ${{ apartment.rent }}</h2>
 <p>
 	{{ apartment.address }}<br>
 	{{ apartment.city }}, {{ apartment.state }} {{ apartment.zipCode }}

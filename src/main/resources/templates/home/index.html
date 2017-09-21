@@ -5,21 +5,7 @@
 <title>Welcome to your new home!</title>
 </head>
 <body>
-	{{#noUser}}
-		<a href="/login">Login</a>
-		<br>
-		<a href="/signup">Sign-Up</a>
-	{{/noUser}}
-	{{#currentUser}}
-	<a href="/logout">Logout</a>
-	<br>
-	<a href="/apartments/new">Create New Apartment</a>
-	<br>
-	<br>
-	 Welcome, {{ currentUser.firstName }} ({{ currentUser.email }})
-	 <br>
-	 <a href="/apartments/mine">My Listings</a>
-	{{/currentUser}}
+	{{> /common/_navigation }}
 	<h1>Apartments!</h1>
 	{{#apartments}}
 		<div>
