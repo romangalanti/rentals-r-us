@@ -21,10 +21,14 @@ public class ApartmentController {
 
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
 			Apartment apartment = Apartment.findById(id);
+			User currentUser = req.session().attribute("currentUser");
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("apartment", apartment);
 			model.put("currentUser", req.session().attribute("currentUser"));
 			model.put("noUser", req.session().attribute("currentUser") == null);
+			if (currentUser != null) {
+				model.put("owner", (currentUser.getId().toString()).equals(apartment.get("user_id").toString()));
+			}
 			return MustacheRenderer.getInstance().render("apartment/details.html", model);
 		}
 	};

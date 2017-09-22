@@ -8,6 +8,7 @@
 {{> /common/_navigation }}
 <h1>Apartment Details</h1>
 <h2>Only ${{ apartment.rent }}</h2>
+{{#owner}}
 {{^apartment.isActive}}
 <form method="post" action="/apartments/{{ apartment.id }}/activations">
 <button>Acivate listing</button>
@@ -18,6 +19,7 @@
 <button>Deacivate listing</button>
 </form>
 {{/apartment.isActive}}
+{{/owner}}
 <p>
 	{{ apartment.address }}<br>
 	{{ apartment.city }}, {{ apartment.state }} {{ apartment.zipCode }}
