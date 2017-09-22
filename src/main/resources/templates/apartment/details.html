@@ -8,18 +8,16 @@
 {{> /common/_navigation }}
 <h1>Apartment Details</h1>
 <h2>Only ${{ apartment.rent }}</h2>
-{{#owner}}
-{{#isActive}}
-<form method="post" action="/apartments/:id/activations">
+{{^apartment.isActive}}
+<form method="post" action="/apartments/{{ apartment.id }}/activations">
 <button>Acivate listing</button>
 </form>
-{{/isActive}}
-{{#notActive}}
-<form method="post" action="/apartments/:id/deactivations">
+{{/apartment.isActive}}
+{{#apartment.isActive}}
+<form method="post" action="/apartments/{{ apartment.id }}/deactivations">
 <button>Deacivate listing</button>
-{{/notActive}}
-{{/owner}}
 </form>
+{{/apartment.isActive}}
 <p>
 	{{ apartment.address }}<br>
 	{{ apartment.city }}, {{ apartment.state }} {{ apartment.zipCode }}
