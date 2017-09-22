@@ -43,6 +43,7 @@ public class Application {
 			get("/:id", ApartmentController.details);
 			post("/:id/activations", ApartmentController.activate);
 			post("/:id/deactivations", ApartmentController.deactivate);
+			post("/:id/like", ApartmentController.like);
 			
 			before("", SecurityFilters.isAuthenticated);
 			post("", ApartmentController.create);

@@ -16,16 +16,17 @@ import spark.Route;
 public class ApartmentController {
 
 	public static final Route details = (Request req, Response res) -> {
-		String idAsString = req.params("id");
-		int id = Integer.parseInt(idAsString);
-
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
+			String idAsString = req.params("id");
+			int id = Integer.parseInt(idAsString);
 			Apartment apartment = Apartment.findById(id);
+			List<User> list = apartment.getAll(User.class);
 			User currentUser = req.session().attribute("currentUser");
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("apartment", apartment);
 			model.put("currentUser", req.session().attribute("currentUser"));
 			model.put("noUser", req.session().attribute("currentUser") == null);
+			model.put("list", list);
 			if (currentUser != null) {
 				model.put("owner", (currentUser.getId().toString()).equals(apartment.get("user_id").toString()));
 			}
@@ -72,7 +73,7 @@ public class ApartmentController {
 		}
 	};
 
-	public static Route activate = (Request req, Response res) -> {
+	public static final Route activate = (Request req, Response res) -> {
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
 			String idAsString = req.params("id");
 			int id = Integer.parseInt(idAsString);
@@ -84,13 +85,25 @@ public class ApartmentController {
 		}
 	};
 
-	public static Route deactivate = (Request req, Response res) -> {
+	public static final Route deactivate = (Request req, Response res) -> {
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
 			String idAsString = req.params("id");
 			int id = Integer.parseInt(idAsString);
 			Apartment apartment = Apartment.findById(id);
 			apartment.set("is_active", false);
 			apartment.saveIt();
+			res.redirect("/apartments/" + id);
+			return "";
+		}
+	};
+
+	public static final Route like = (Request req, Response res) -> {
+		try (AutoCloseableDb db = new AutoCloseableDb()) {
+			String idAsString = req.params("id");
+			int id = Integer.parseInt(idAsString);
+			Apartment apartment = Apartment.findById(id);
+			User currentUser = req.session().attribute("currentUser");
+			apartment.add(currentUser);
 			res.redirect("/apartments/" + id);
 			return "";
 		}
