@@ -19,22 +19,23 @@
 <button>Deacivate listing</button>
 </form>
 {{/apartment.isActive}}
-<h3>People Who Like This Apartment:</h3>
+<h3>Number of People Who Like This Apartment: {{ list.size }}</h3>
+<h4>People Who Like This Apartment:</h4>
 {{#list}}
 	<div>{{lastName}}, {{firstName}}</div>
 {{/list}}
 {{/owner}}
-{{#currentUser}}
-{{^owner}}
-{{^list}}
+{{#liker}}
+{{#apartment}}
 <form method="post" action="/apartments/{{ apartment.id }}/like">
 <button>Like this apartment</button>
 </form>
-{{/list}}
-{{/owner}}
-{{/currentUser}}
+{{/apartment}}
+{{/liker}}
 {{#noUser}}
+	{{#apartment}}
 <a href="/login?returnPath=/apartments/{{ apartment.id }}">Login to LIKE this apartment</a>
+	{{/apartment}}
 {{/noUser}}
 <p>
 	{{ apartment.address }}<br>
