@@ -57,6 +57,7 @@ public class Application {
 		post("/login", SessionController.create);
 		
 		path("/api", () -> {
+			get("/apartments", ApartmentApiController.index);
 			get("/apartments/:id", ApartmentApiController.details);
 			post("/apartments", ApartmentApiController.create);
 		});
