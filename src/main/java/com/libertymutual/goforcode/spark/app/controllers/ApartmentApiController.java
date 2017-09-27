@@ -1,6 +1,7 @@
 package com.libertymutual.goforcode.spark.app.controllers;
 
 import com.libertymutual.goforcode.spark.app.models.Apartment;
+import com.libertymutual.goforcode.spark.app.models.User;
 import com.libertymutual.goforcode.spark.app.utilities.AutoCloseableDb;
 import com.libertymutual.goforcode.spark.app.utilities.JsonHelper;
 
@@ -9,7 +10,6 @@ import static spark.Spark.notFound;
 import java.util.Map;
 
 import org.javalite.activejdbc.LazyList;
-
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -26,10 +26,10 @@ public class ApartmentApiController {
 				return apartment.toJson(true);
 			}
 			notFound("Did not find that apartment.");
-			return "";
+			return "{}";
 		}
 	};
-	public static Route create = (Request req, Response res) -> {
+	public static final Route create = (Request req, Response res) -> {
 		String json = req.body();
 		Map map = JsonHelper.toMap(json);
 		Apartment apartment = new Apartment();
@@ -41,6 +41,16 @@ public class ApartmentApiController {
 			return apartment.toJson(true);
 		}
 		
+	};
+
+	public static final Route mine = (Request req, Response res) -> {
+		User currentUser = req.session().attribute("currentUser");
+		long id = (long) currentUser.getId();
+		try (AutoCloseableDb db = new AutoCloseableDb()) {
+			LazyList<Apartment> apartments = Apartment.where("user_id = ?", id);
+			res.header("Content-Type", "application/json");
+			return apartments.toJson(true);
+		}
 	};
 	
 	public static final Route index = (Request req, Response res) -> {

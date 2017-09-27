@@ -1,0 +1,8 @@
+<p>
+  <a routerLink="/">Home</a>
+  <br>
+  <a routerLink="/login" *ngIf="!currentUser">Login</a>
+  <a routerLink="/apartments/mine" *ngIf="currentUser">Your listings</a>
+  <br>
+  <button (click)="logout()" *ngIf="currentUser">Logout</button>
+</p>
