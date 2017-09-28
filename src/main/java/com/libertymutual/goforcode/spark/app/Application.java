@@ -64,6 +64,9 @@ public class Application {
 			get("/apartments/mine", ApartmentApiController.mine);
 			get("/apartments/:id", ApartmentApiController.details);
 			post("/apartments", ApartmentApiController.create);
+			post("/apartments/:id/activations", ApartmentApiController.activate);
+			post("/apartments/:id/deactivations", ApartmentApiController.deactivate);
+			post("/apartments/:id/like", ApartmentApiController.like);
 			post("/sessions", SessionApiController.create);
 			delete("/sessions/mine", SessionApiController.destroy);
 		});

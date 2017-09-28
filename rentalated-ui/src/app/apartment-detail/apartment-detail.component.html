@@ -7,3 +7,12 @@
   <li><b>Number of Bedrooms:</b> {{ apartment.number_of_bedrooms }}</li>
   <li><b>Number of Bathrooms:</b> {{ apartment.number_of_bathrooms }}</li>
 </ul>
+<form (submit)="activateApartment()">
+    <button *ngIf="!apartment.is_active">Activate</button>
+</form>
+<form (submit)="deactivateApartment()">
+    <button *ngIf="apartment.is_active">Deactivate</button>
+</form>
+<form (submit)="likeApartment()">
+    <button>Like</button>
+</form>
