@@ -5,6 +5,7 @@ import com.libertymutual.goforcode.spark.app.controllers.ApartmentController;
 import com.libertymutual.goforcode.spark.app.controllers.HomeController;
 import com.libertymutual.goforcode.spark.app.controllers.SessionApiController;
 import com.libertymutual.goforcode.spark.app.controllers.SessionController;
+import com.libertymutual.goforcode.spark.app.controllers.UserApiController;
 import com.libertymutual.goforcode.spark.app.controllers.UserController;
 import com.libertymutual.goforcode.spark.app.filters.SecurityFilters;
 import com.libertymutual.goforcode.spark.app.models.Apartment;
@@ -25,6 +26,8 @@ public class Application {
 			User.deleteAll();
 			User roman = new User("rg@gmail.com", encryptedPassword, "Roman", "Galanti");
 			roman.saveIt();
+			User rachel = new User("rs@gmail.com", encryptedPassword, "Rachel", "Soley");
+			rachel.saveIt();
 			Apartment.deleteAll();
 			Apartment apartment = new Apartment(6000, 1, 0, 350, "123 Main St.", "San Francisco", "CA", "95125", true);
 			roman.add(apartment);
@@ -63,11 +66,13 @@ public class Application {
 			get("/apartments", ApartmentApiController.index);
 			get("/apartments/mine", ApartmentApiController.mine);
 			get("/apartments/:id", ApartmentApiController.details);
+			post("/sessions", SessionApiController.create);
+			post("/users", UserApiController.create);
 			post("/apartments", ApartmentApiController.create);
 			post("/apartments/:id/activations", ApartmentApiController.activate);
 			post("/apartments/:id/deactivations", ApartmentApiController.deactivate);
 			post("/apartments/:id/like", ApartmentApiController.like);
-			post("/sessions", SessionApiController.create);
+			
 			delete("/sessions/mine", SessionApiController.destroy);
 		});
 	}
